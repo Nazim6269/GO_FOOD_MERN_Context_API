@@ -12,7 +12,7 @@ const Home = () => {
 
   const loadData = async () => {
     let response = await fetch("http://localhost:3000/foodData", {
-      method: "POSt",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -21,6 +21,13 @@ const Home = () => {
     setFoodCat(response[1]);
     setFoodItems(response[0]);
   };
+
+  // Check if the cookie exists when the page loads
+  window.addEventListener("load", () => {
+    if (!document.cookie.includes("myCookie=")) {
+      window.location.href = "http://localhost:5173/login";
+    }
+  });
 
   useEffect(() => {
     loadData();
@@ -113,13 +120,13 @@ const Home = () => {
           </Carousel.Item>
         </Carousel>
       </div>
-      <div className=" container mt-4 mx-3 ">
+      <div className=" container mt-4 mx-3">
         {foodCat !== "[]" ? (
           foodCat.map((data) => {
             return (
               <div key={data._id} className="">
                 <div className="mb-3">
-                  <div>{data.CategoryName}</div>
+                  <div className="">{data.CategoryName}</div>
                   <hr />
                   <div className="d-flex justify-content-between flex-wrap">
                     {foodItems !== "[]" ? (

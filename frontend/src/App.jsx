@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import CartProvider from "./context/context";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
-import CartProvider from "./Components/ContextReducer";
 
 function App() {
   return (

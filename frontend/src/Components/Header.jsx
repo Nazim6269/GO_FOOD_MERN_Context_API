@@ -1,22 +1,23 @@
 import { useState } from "react";
 import Badge from "react-bootstrap/Badge";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { deleteCookie } from "../../helpers/cookie";
 import Modal from "../Modal";
+import { useCart } from "../context/context";
 import Cart from "./Cart";
-import { useCart } from "./ContextReducer";
 
 const Header = () => {
-  const data = useCart();
-  const navigate = useNavigate();
+  const [cartView, setCartView] = useState(false);
+  const { cart } = useCart();
+
+  //handle logout function
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/login");
+    deleteCookie("myCookie");
+    window.location.href = "http://localhost:5173/login";
   };
 
-  const [cartView, setCartView] = useState(false);
-
   return (
-    <nav className="navbar navbar-expand-lg bg-success">
+    <nav className="navbar navbar-expand-lg bg-info">
       <div className="container-fluid ">
         <a className="navbar-brand fs-2 fst-italic bold text-white" href="#">
           GoFood
@@ -43,7 +44,7 @@ const Header = () => {
                 Home
               </Link>
             </li>
-            {localStorage.getItem("authToken") ? (
+            {document.cookie.includes("myCookie=") ? (
               <li className="nav-item">
                 <Link className="nav-link active " aria-current="page" to="/">
                   My Orders
@@ -54,7 +55,7 @@ const Header = () => {
             )}
           </ul>
           <div className="d-flex">
-            {!localStorage.getItem("authToken") ? (
+            {!document.cookie.includes("myCookie=") ? (
               <div className="d-flex">
                 <Link
                   className="btn bg-white text-success mx-1 px-2 py-1 nav-link"
@@ -77,8 +78,8 @@ const Header = () => {
                   onClick={() => setCartView(true)}
                 >
                   My Carts
-                  <Badge pill bg="danger">
-                    {data.length ? data.length : ""}
+                  <Badge pill bg="danger ">
+                    {cart.length ? cart.length : ""}
                   </Badge>
                 </Link>
                 {cartView ? (

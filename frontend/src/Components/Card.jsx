@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { useCart, useDispatchCart } from "./ContextReducer";
+import { addToCart } from "../context/actions/actionCreators";
+import { useCart, useDispatchCart } from "../context/context";
 
 const DisCard = (props) => {
   const { options, desc } = props;
@@ -14,15 +15,15 @@ const DisCard = (props) => {
 
   const dispatch = useDispatchCart();
   const handleAddToCart = async () => {
-    await dispatch({
-      type: "ADD",
-      id: props.foodItem._id,
-      name: props.foodItem.name,
-      price: finalPrice,
-      quantity: quantity,
-      size: size,
-    });
-    console.log(data);
+    await dispatch(
+      addToCart({
+        id: props.foodItem._id,
+        name: props.foodItem.name,
+        price: finalPrice,
+        quantity: quantity,
+        size: size,
+      })
+    );
   };
 
   const finalPrice = quantity * parseInt(options[size]);

@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { setCookie } from "../../helpers/cookie";
 
 const Login = () => {
   const [credential, setCredential] = useState({ email: "", password: "" });
@@ -25,7 +27,8 @@ const Login = () => {
       alert("provide valid cedential");
     }
     if (json.success) {
-      localStorage.setItem("authToken", json.authToken);
+      const token = json.accessToken;
+      setCookie(token);
       navigate("/");
     }
   };
@@ -35,8 +38,12 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <div>
+    <div
+      className="container"
+      style={{ marginTop: "2rem", display: "flex", justifyContent: "center" }}
+    >
+      <Card style={{ width: "28rem", padding: "2rem " }}>
+        <h2 style={{ textAlign: "center" }}>Log in </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
@@ -85,7 +92,7 @@ const Login = () => {
             I am new user
           </Link>
         </form>
-      </div>
+      </Card>
     </div>
   );
 };

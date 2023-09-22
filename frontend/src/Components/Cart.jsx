@@ -1,10 +1,12 @@
 import React from "react";
-import { useCart, useDispatchCart } from "./ContextReducer";
+import { removeFromCart } from "../context/actions/actionCreators";
+import { useCart, useDispatchCart } from "../context/context";
 
 const Cart = () => {
-  const data = useCart();
+  const { cart } = useCart();
   const dispatch = useDispatchCart();
-  if (data.length === 0) {
+
+  if (cart?.length === 0) {
     return (
       <div>
         <div className="m-5 w-100 text-center fs-3 text-white">
@@ -14,7 +16,7 @@ const Cart = () => {
     );
   }
 
-  const totalPrice = data.reduce((total, food) => total + food.price, 0);
+  const totalPrice = cart?.reduce((total, food) => total + food.price, 0);
 
   return (
     <div>
@@ -30,7 +32,7 @@ const Cart = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((food, index) => (
+            {cart?.map((food, index) => (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>{food.name}</td>
@@ -38,13 +40,15 @@ const Cart = () => {
                 <td>{food.size}</td>
                 <td>{food.price}</td>
                 <td>
-                  {/* <button type="button" className="btn p-0">
-                    <Delete
-                      onClick={() => {
-                        dispatch({ type: "REMOVE", index: index });
-                      }}
-                    />
-                  </button>{" "} */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(removeFromCart(index));
+                    }}
+                    className="btn p-0"
+                  >
+                    Remove from cart
+                  </button>{" "}
                 </td>
               </tr>
             ))}

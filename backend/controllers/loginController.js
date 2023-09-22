@@ -16,16 +16,16 @@ const loginController = async (req, res) => {
   }
   if (!comparedPass) {
     res.status(400).send({ message: "Provide Valid Credential123" });
-  } else {
-    const payload = {
-      user: {
-        id: user._id,
-      },
-    };
-
-    const authToken = jwt.sign(payload, jwtSecret);
-    res.status(200).json({ success: true, authToken: authToken });
   }
+
+  const payload = {
+    user: {
+      id: user._id,
+    },
+  };
+
+  const accessToken = jwt.sign(payload, jwtSecret);
+  res.status(200).json({ success: true, accessToken: accessToken });
 };
 
 module.exports = loginController;
